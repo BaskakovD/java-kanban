@@ -1,32 +1,30 @@
+package tasks;
+
 import enums.Status;
 import enums.TaskType;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * класс для задач типа эпик
+ * Класс описывает задачи типа "Epic".
  */
 public class Epic extends Task {
     ArrayList<SubTask> subTasks = new ArrayList<>();
-
+    //Конструкторы класс Epic
     public Epic(String name, String description) {
         super(name, description);
         this.taskType = TaskType.EPIC;
     }
-
     public Epic(String name, String description, Status status) {
         super(name, description, status);
         this.taskType = TaskType.EPIC;
     }
-
     public Epic(String name, String description, Integer id, Status status) {
         super(name, description, id, status);
         this.taskType = TaskType.EPIC;
     }
-
-    // проверка статуса эпика в зависимости от статуса подзадачи
+    // Метод проверки статуса эпика в зависимости от статуса подзадачи
     private void checkStatusEpic() {
         if (subTasks.isEmpty() || isStatus(subTasks, Status.NEW)) {
             status = Status.NEW;
@@ -36,7 +34,7 @@ public class Epic extends Task {
             status = Status.IN_PROGRESS;
         }
     }
-
+    //Метод установления статуса эпика в зависимости от статуса задачи
     private boolean isStatus(ArrayList<SubTask> tasks, Status status) {
         for (SubTask task : tasks) {
             if (!task.getStatus().equals(status)) {
@@ -45,8 +43,7 @@ public class Epic extends Task {
         }
         return true;
     }
-
-    //добавление подзадачи с проверкой уникальности id
+    //Метод добавления подзадачи с проверкой уникальности идентификатора
     public void addSubTask(SubTask subTask) {
         for (SubTask task : subTasks) {
             if (task.getId().equals(subTask.getId())) {
@@ -57,13 +54,11 @@ public class Epic extends Task {
         subTasks.add(subTask);
         checkStatusEpic();
     }
-
-    // метод удаления подзадачи с обновлением статуса эпика
+    // Метод удаления подзадачи с обновлением статуса эпика
     public void removeSubTask(SubTask subTask) {
         subTasks.remove(subTask);
         checkStatusEpic();
     }
-
     public void setSubTasks(ArrayList<SubTask> subTasks) {
         this.subTasks = subTasks;
         checkStatusEpic();
@@ -89,7 +84,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
+        return "tasks.Epic{" +
                 "subTasks=" + subTasks +
                 ", taskType=" + taskType +
                 ", id=" + id +

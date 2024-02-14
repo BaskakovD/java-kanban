@@ -1,38 +1,32 @@
+package tasks;
 import enums.Status;
 import enums.TaskType;
-
 import java.util.Objects;
-
 /*
-класс для обычных задач
+Класс описывает задачи с типом "Task".
  */
-
 public class Task {
-    protected TaskType taskType;
-    protected Integer id;
-    protected String name;
-    protected String description;
-    protected Status status;
+    protected TaskType taskType; //тип задачи
+    protected Integer id; // идентификатор задачи
+    protected String name; // имя задачи
+    protected String description; //описание задачи
+    protected Status status; // статус задачи
 
     public TaskType getTaskType() {
         return taskType;
     }
-
-    TaskManager taskManager = new TaskManager();
-
+// Конструкторы класса Task
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
     }
-
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.taskType = TaskType.TASK;
     }
-
     public Task(String name, String description, Integer id, Status status) {
         this.id = id;
         this.name = name;
@@ -40,43 +34,34 @@ public class Task {
         this.status = status;
         this.taskType = TaskType.TASK;
     }
-
     public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
-
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public Status getStatus() {
         return status;
     }
-
     public void setStatus(Status status) {
         this.status = status;
     }
-
+    // Переопределение метода equals
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -84,15 +69,15 @@ public class Task {
         Task task = (Task) object;
         return taskType == task.taskType && Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
     }
-
+    // Переопределение метода hasCode
     @Override
     public int hashCode() {
         return Objects.hash(taskType, id, name, description, status);
     }
-
+    // Переопределение метода toString
     @Override
     public String toString() {
-        return "Task{" +
+        return "tasks.Task{" +
                 "taskType=" + taskType +
                 ", id=" + id +
                 ", name='" + name + '\'' +

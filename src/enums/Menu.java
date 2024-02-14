@@ -1,3 +1,5 @@
+package enums;
+
 public enum Menu {
     PRINT_ALL_TASK,
     DELETE_ALL_TASK,

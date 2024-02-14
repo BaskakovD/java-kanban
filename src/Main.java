@@ -1,5 +1,8 @@
 import enums.Status;
-import enums.TaskType;
+import manager.TaskManager;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 import java.util.*;
 
@@ -31,5 +34,9 @@ public class Main {
         System.out.println(taskManager.getArrayListEpics());
         taskManager.removeSubTask(8);
         System.out.println(taskManager.getArrayListEpics());
+
+        SubTask subTask4 = new SubTask("Уравнение", "Решение уравнения", 15, Status.NEW);
+        taskManager.createSubTask(subTask4);
+        System.out.println(taskManager.getSubTaskId(15));
     }
 }
