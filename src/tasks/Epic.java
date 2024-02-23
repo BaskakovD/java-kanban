@@ -54,6 +54,7 @@ public class Epic extends Task {
         subTasks.add(subTask);
         checkStatusEpic();
     }
+
     // Метод удаления подзадачи с обновлением статуса эпика
     public void removeSubTask(SubTask subTask) {
         subTasks.remove(subTask);

@@ -1,148 +1,94 @@
 package manager;
 
+import enums.TaskType;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class TaskManager {
-    private static int ID = 0;
+public interface TaskManager {
+    int createID();
 
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    /*
+        Методы для задач согласно заданию
+         */
 
-   /*
-   Реализация методов для задач согласно техническому заданию 4-го спринта
-    */
+    HashMap<Integer, Task> getTasks();
 
-    public static int createID() {
-        return ++ID;
-    }
+    HashMap<Integer, SubTask> getSubTasks();
+
+    HashMap<Integer, Epic> getEpics();
 
     // получение списка всех задач
-    public ArrayList<Task> getArrayListTasks() {
-        return new ArrayList<>(tasks.values());
-    }
-
-    // Метод удаления всех задач
-    public void removeAllTasks() {
-        tasks.clear();
-    }
+    ArrayList<Task> getListAllTasks();
 
     //Метод получения задачи по идентификатору
-    public void returnTaskById(Integer id) {
-        tasks.get(id);
-    }
+    Task getTaskById(Integer id);
 
     // Метод создания новой задачи посредством передачи задачи в качестве параметра метода
-    public Task createTask(Task task) {
-        if (task.getId() == null) {
-            task.setId(createID());
-        }
-        return tasks.put(task.getId(), task);
-    }
+    Task createTask(Task task);
 
     //Метод обновления задачи
-    public Task updateTask(Task task) {
-        return tasks.put(task.getId(), task);
-    }
+    Task updateTask(Task task);
+
+    // Метод удаления всех задач все типов
+    void deleteAllTasks();
 
     // Метод удаления задачи по идентификатору
-    public Task removeTaskById(Integer id) {
-        return tasks.remove(id);
-    }
+    Task deleteTaskById(Integer id);
 
     /*
-    Реализация методов для подзадач согласно техническому заданию
-     */
-    //Метод получение списка всех подзадач
-    public List<Object> getArrayListSubTask() {
-        if (subTasks.size() == 0) {
-            return Collections.emptyList();
-        }
-        return new ArrayList<>(subTasks.values());
-    }
+        Методы для подзадач согласно заданию
+         */
 
-    //Метод удаления всех подзадач
-    public void removeAllSubTasks() {
-        subTasks.clear();
-    }
+    //Метод получение списка всех подзадач
+    List<Object> getListAllSubTasks();
 
     //Метод возвращает подзадачу по идентификатору
-    public SubTask getSubTaskId(Integer id) {
-        return subTasks.get(id);
-    }
+    SubTask getSubTaskById(Integer id);
+
+    // Метод получения списка всех подзадач определенного эпика
+    List<SubTask> getListAllTasksOfEpic(Epic epic);
 
     //Метод создания новой подзадачи
-    public SubTask createSubTask(SubTask subTask) {
-        if (subTask.getId() == null) {
-            subTask.setId(createID());
-        }
-        subTasks.put(subTask.getId(), subTask);
-        updateEpic(subTask);
-        return subTask;
-    }
+    SubTask createSubTask(SubTask subTask);
 
     //Метод обновления подзадачи
-    public void upDataSubTask(SubTask subTask) {
-        subTasks.put(subTask.getId(), subTask);
-        updateEpic(subTask);
-    }
+    void upDataSubTask(SubTask subTask);
+
+    //Метод удаления всех подзадач
+    void deleteAllSubTasks();
+
 
     // Метод удаления подзадачи по идентификатору
-    public void removeSubTask(Integer id) {
-        SubTask deleteSubTask = subTasks.get(id);
-        if (deleteSubTask != null) {
-            subTasks.remove(id);
-            int epicId = deleteSubTask.getEpicId();
-            Epic epicUpdate = getEpicById(epicId);
-            epicUpdate.removeSubTask(deleteSubTask);
-        }
-    }
+    void deleteSubTask(Integer id);
+
+
 
     /*
-    Реализация методов для эпика согласно техническому ТЗ
-     */
-    //Метод получения списка всех эпиков
-    public ArrayList<Epic> getArrayListEpics() {
-        return new ArrayList<>(epics.values());
-    }
+        Методы для эпиков согласно заданию
+         */
 
-    //Метод удаления всех эпиков
-    public void removeAllEpics() {
-        epics.clear();
-    }
+    //Метод получения списка всех эпиков
+    ArrayList<Epic> getListAllEpics();
 
     // метод получение эпика по идентификатору
-    public Epic getEpicById(Integer id) {
-        if (epics.get(id) == null) {
-            return null;
-        }
-        return epics.get(id);
-    }
+    Epic getEpicById(Integer id);
 
     //Метод создания нового эпика
-    public Epic createEpic(Epic epic) {
-        if (epic.getId() == null) {
-            epic.setId(createID());
-        }
-        return epics.put(epic.getId(), epic);
-    }
+    Epic createEpic(Epic epic);
 
     //Метод обновления эпика
-    public void updateEpic(SubTask subTask) {
-        Epic epicByID = getEpicById(subTask.getEpicId());
-        if (epicByID != null) {
-            epicByID.addSubTask(subTask);
-        }
-    }
+    void updateEpic(SubTask subTask);
+
+    //Метод удаления всех эпиков
+    void deleteAllEpics();
 
     //Метод удаления эпика по идентификатору
-    public void removeEpic(Integer id) {
-        epics.remove(id);
-    }
+    void deleteEpic(Integer id);
+
+
 }
-
-
