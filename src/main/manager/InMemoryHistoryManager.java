@@ -1,8 +1,6 @@
-package manager;
+package main.manager;
 
-import tasks.Epic;
-import tasks.SubTask;
-import tasks.Task;
+import main.tasks.Task;
 
 import java.util.LinkedList;
 
@@ -13,11 +11,11 @@ public class InMemoryHistoryManager implements HistoryManager {
      */
     //добавление задачи в historyList
     @Override
-    public void addToTaskToHistory(Task task) {
+    public void addToTaskToHistory(Task task1) {
         if (historyList.size() > 9) {
             historyList.removeFirst();
         }
-        historyList.addLast(task);
+        historyList.addLast(task1);
     }
 
     // Метод получения historyList

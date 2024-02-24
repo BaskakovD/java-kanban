@@ -1,9 +1,8 @@
-package manager;
+package main.manager;
 
-import enums.TaskType;
-import tasks.Epic;
-import tasks.SubTask;
-import tasks.Task;
+import main.tasks.Epic;
+import main.tasks.SubTask;
+import main.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +28,10 @@ public interface TaskManager {
     Task getTaskById(Integer id);
 
     // Метод создания новой задачи посредством передачи задачи в качестве параметра метода
-    Task createTask(Task task);
+    Task createTask(Task task1);
 
     //Метод обновления задачи
-    Task updateTask(Task task);
+    Task updateTask(Task task1);
 
     // Метод удаления всех задач все типов
     void deleteAllTasks();

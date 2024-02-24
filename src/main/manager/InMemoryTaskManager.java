@@ -1,9 +1,8 @@
-package manager;
+package main.manager;
 
-import enums.TaskType;
-import tasks.Epic;
-import tasks.SubTask;
-import tasks.Task;
+import main.tasks.Epic;
+import main.tasks.SubTask;
+import main.tasks.Task;
 
 import java.util.*;
 
@@ -63,17 +62,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Метод создания новой задачи посредством передачи задачи в качестве параметра метода
     @Override
-    public Task createTask(Task task) {
-        if (task.getId() == null) {
-            task.setId(createID());
+    public Task createTask(Task task1) {
+        if (task1.getId() == null) {
+            task1.setId(createID());
         }
-        return tasks.put(task.getId(), task);
+        return tasks.put(task1.getId(), task1);
     }
 
     //Метод обновления задачи
     @Override
-    public Task updateTask(Task task) {
-        return tasks.put(task.getId(), task);
+    public Task updateTask(Task task1) {
+        return tasks.put(task1.getId(), task1);
     }
 
     // Метод удаления задачи по идентификатору
@@ -116,7 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTask.getId() == null) {
             subTask.setId(createID());
         }
-        if (epics.containsKey(subTask.getEpicId())) {
+         if (epics.containsKey(subTask.getEpicId())) {
             subTasks.put(subTask.getId(), subTask);
         } else if (!epics.containsKey(subTask.getEpicId())) {
             return null;

@@ -1,6 +1,6 @@
-package manager;
+package main.manager;
 
-import tasks.Task;
+import main.tasks.Task;
 
 import java.util.LinkedList;
 
@@ -10,5 +10,5 @@ public interface HistoryManager {
     LinkedList<Task> getHistory();
 
     //добавление задачи в historyList
-    void addToTaskToHistory(Task task);
+    void addToTaskToHistory(Task task1);
 }

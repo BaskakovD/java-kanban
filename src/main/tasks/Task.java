@@ -1,7 +1,7 @@
-package tasks;
+package main.tasks;
 
-import enums.Status;
-import enums.TaskType;
+import main.enums.Status;
+import main.enums.TaskType;
 
 import java.util.Objects;
 
@@ -78,8 +78,8 @@ public class Task {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        Task task = (Task) object;
-        return taskType == task.taskType && Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        Task task1 = (Task) object;
+        return taskType == task1.taskType && Objects.equals(id, task1.id) && Objects.equals(name, task1.name) && Objects.equals(description, task1.description) && status == task1.status;
     }
 
     // Переопределение метода hasCode

@@ -1,4 +1,4 @@
-package enums;
+package main.enums;
 
 public enum Menu {
     PRINT_ALL_TASK,

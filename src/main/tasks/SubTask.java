@@ -1,7 +1,8 @@
-package tasks;
+package main.tasks;
 
-import enums.Status;
-import enums.TaskType;
+import main.enums.Status;
+import main.enums.TaskType;
+import main.tasks.Task;
 
 /*
 Класс для задач типа "Subtask".

@@ -1,20 +1,16 @@
 package tests;
 
-import enums.Status;
-import enums.TaskType;
-import manager.*;
-import org.junit.jupiter.api.BeforeEach;
-import manager.Managers;
+import main.enums.Status;
+import main.manager.*;
+import main.manager.Managers;
+import main.tasks.Epic;
+import main.tasks.SubTask;
+import main.tasks.Task;
 import org.junit.jupiter.api.Test;
-import tasks.Epic;
-import tasks.SubTask;
-import tasks.Task;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
+
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,47 +20,6 @@ class InMemoryTaskManagerTest {
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
-
-//
-//    //Методы создания задач
-//    protected Task createTask1() {
-//        return new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW);
-//    }
-//
-//    protected Task createTask2() {
-//        return new Task("TaskNam_2", "TaskDescription_2", 2, Status.DONE);
-//    }
-//
-//    //Методы создания подзадач
-//    protected SubTask createSubTask1() {
-//        return new SubTask("1_SubTaskName", "1_SubTaskDescription", 3, Status.NEW, 8);
-//    }
-//
-//    protected SubTask createSubTask2() {
-//        return new SubTask("2_SubTaskName", "2_SubTaskDescription", 4, Status.DONE, 10);
-//    }
-//
-//    protected SubTask createSubTask3() {
-//        return new SubTask("3_SubTaskName", "3_SubTaskDescription", 5, Status.DONE, 6);
-//    }
-//
-//    protected SubTask createSubTask4() {
-//        return new SubTask("4_SubTaskName", "4_SubTaskDescription", 6, Status.DONE, 8);
-//    }
-//
-//    protected SubTask createSubTask5() {
-//        return new SubTask("5_SubTaskName", "5_SubTaskDescription", 7, Status.DONE, 6);
-//    }
-//
-//
-//    //Методы создания эпиокв
-//    protected Epic createEpic1() {
-//        return new Epic("1_Epic", "1_Epic", 8, Status.NEW);
-//    }
-//
-//    protected Epic createEpic2() {
-//        return new Epic("2_Epic", "2_Epic", 9, Status.DONE);
-//    }
 
 
     //Проверка, что два разных экземпляра Task не равны между собой.
