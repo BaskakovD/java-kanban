@@ -9,6 +9,7 @@ import main.tasks.Task;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -93,7 +94,7 @@ class InMemoryTaskManagerTest {
         assertNotEquals(true, inMemoryTaskManager.equals(inMemoryTaskManager1), "Проверка неравенства экземпляров InMemoryTaskManager");
         assertNotEquals(true, inMemoryTaskManager1.equals(inMemoryTaskManager2), "Проверка неравенства экземпляров  InMemoryTaskManager");
         assertNotEquals(true, inMemoryTaskManager.getInMemoryHistoryManager().equals(inMemoryHistoryManager), "Проверка неравенства экземпляров InMemoryHistoryManager");
-        LinkedList<Task> linkedList = inMemoryHistoryManager.getHistory();
+        Deque<Task> linkedList = inMemoryHistoryManager.getHistory();
         assertEquals(0, linkedList.size(), "Проверка истории просмотров задач на нулевой размер");
         inMemoryHistoryManager.addToTaskToHistory(task1);
         inMemoryHistoryManager.addToTaskToHistory(epic1);

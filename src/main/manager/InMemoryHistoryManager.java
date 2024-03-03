@@ -2,10 +2,11 @@ package main.manager;
 
 import main.tasks.Task;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final LinkedList<Task> historyList = new LinkedList<>();
+    private final Deque<Task> historyList = new LinkedList<>() {};
         /*
     Реализация методов работы с историей задач
      */
@@ -20,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     // Метод получения historyList
     @Override
-    public LinkedList<Task> getHistory() {
+    public Deque<Task> getHistory() {
         return historyList;
     }
 
