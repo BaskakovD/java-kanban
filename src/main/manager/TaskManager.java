@@ -37,7 +37,7 @@ public interface TaskManager {
     void deleteAllTasks();
 
     // Метод удаления задачи по идентификатору
-    Task deleteTaskById(Integer id);
+    void deleteTaskById(Integer id);
 
     /*
         Методы для подзадач согласно заданию
@@ -63,7 +63,7 @@ public interface TaskManager {
 
 
     // Метод удаления подзадачи по идентификатору
-    void deleteSubTask(Integer id);
+    void deleteSubTaskById(Integer id);
 
 
 
@@ -87,7 +87,7 @@ public interface TaskManager {
     void deleteAllEpics();
 
     //Метод удаления эпика по идентификатору
-    void deleteEpic(Integer id);
+    void deleteEpicById(Integer id);
 
 
 }
