@@ -1,15 +1,16 @@
 package tests;
 
 import main.enums.Status;
-import main.manager.*;
+import main.manager.InMemoryHistoryManager;
+import main.manager.InMemoryTaskManager;
 import main.manager.Managers;
 import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
 import org.junit.jupiter.api.Test;
 
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,8 +90,8 @@ class InMemoryTaskManagerTest {
         assertNotEquals(true, inMemoryTaskManager1.equals(inMemoryTaskManager2), "Проверка неравенства экземпляров  InMemoryTaskManager");
         assertNotEquals(true, inMemoryTaskManager.getInMemoryHistoryManager().equals(inMemoryHistoryManager), "Проверка неравенства экземпляров InMemoryHistoryManager");
         assertEquals(0, inMemoryHistoryManager.getHistory().size(), "Проверка истории просмотров задач на нулевой размер");
-        inMemoryHistoryManager.addToTaskToHistory(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
-        inMemoryHistoryManager.addToTaskToHistory(new Epic("1_Epic", "1_Epic", 5, Status.DONE));
+        inMemoryHistoryManager.add(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
+        inMemoryHistoryManager.add(new Epic("1_Epic", "1_Epic", 5, Status.DONE));
         assertEquals(2, inMemoryHistoryManager.getHistory().size(), "Добавили в историю просмотра задачу и эпик. Проверка истории просмотров задач на размер2");
     }
 
@@ -119,10 +120,10 @@ class InMemoryTaskManagerTest {
         assertEquals(1, inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size(), "История не пустая, размер равен 2");
     }
 
-    //Создание задачи с заданным Id и сгенерированным ID и отстутствие конфликта
+    //Создание задачи с заданным Id и сгенерированным ID и отсутствие конфликта
     @Test
     void createTaskByIdAndCreateTaskWithGeneratedID() {
-        inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
+        inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskName_2", "TaskDescription_2", Status.DONE));
         inMemoryTaskManager.createTask(new Task("TaskName_3", "TaskDescription_3", Status.DONE));
         assertEquals(3, inMemoryTaskManager.getTasks().size(), "Три задачи добавлены в tasks");
@@ -144,12 +145,14 @@ class InMemoryTaskManagerTest {
     @Test
     void differentVersionTaskInHistory() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
+        inMemoryTaskManager.createTask(new Task("TaskName_2", "TaskDescription_2", 2, Status.NEW));
         inMemoryTaskManager.getTaskById(1);
         inMemoryTaskManager.updateTask(new Task("TaskName_NEW", "TaskDescription_NEW", 1, Status.IN_PROGRESS));
         inMemoryTaskManager.getTaskById(1);
         inMemoryTaskManager.updateTask(new Task("TaskName_NEW_NEW", "TaskDescription_NEW_NEW", 1, Status.IN_PROGRESS));
         inMemoryTaskManager.getTaskById(1);
-        assertEquals(1, inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size(), "История изменения задачи сохранилась, размер истории по-прежнему 1");
+        inMemoryTaskManager.getTaskById(2);
+        assertEquals(2, inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size(), "История изменения задачи сохранилась, размер истории по-прежнему 1");
         assertTrue(inMemoryTaskManager.getTaskById(1).getName().equals("TaskName_NEW_NEW"), "В истории сохранилась последняя версия задачи");
     }
 

@@ -1,6 +1,6 @@
 package tests;
 
-import main.manager.*;
+import main.manager.InMemoryHistoryManager;
 
 class InMemoryHistoryManagerTest extends InMemoryHistoryManager {
 
