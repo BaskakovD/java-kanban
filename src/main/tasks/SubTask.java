@@ -2,7 +2,6 @@ package main.tasks;
 
 import main.enums.Status;
 import main.enums.TaskType;
-import main.tasks.Task;
 
 /*
 Класс для задач типа "Subtask".

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
-    int createID();
 
     /*
         Методы для задач согласно заданию
@@ -21,8 +20,10 @@ public interface TaskManager {
 
     HashMap<Integer, Epic> getEpics();
 
+    int generatedID();
+
     // получение списка всех задач
-    ArrayList<Task> getListAllTasks();
+    List<Task> getListAllTasks();
 
     //Метод получения задачи по идентификатору
     Task getTaskById(Integer id);
@@ -37,7 +38,7 @@ public interface TaskManager {
     void deleteAllTasks();
 
     // Метод удаления задачи по идентификатору
-    Task deleteTaskById(Integer id);
+    void deleteTaskById(Integer id);
 
     /*
         Методы для подзадач согласно заданию
@@ -61,18 +62,15 @@ public interface TaskManager {
     //Метод удаления всех подзадач
     void deleteAllSubTasks();
 
-
     // Метод удаления подзадачи по идентификатору
-    void deleteSubTask(Integer id);
-
-
+    void deleteSubTaskById(Integer id);
 
     /*
         Методы для эпиков согласно заданию
          */
 
     //Метод получения списка всех эпиков
-    ArrayList<Epic> getListAllEpics();
+    List<Epic> getListAllEpics();
 
     // метод получение эпика по идентификатору
     Epic getEpicById(Integer id);
@@ -87,7 +85,5 @@ public interface TaskManager {
     void deleteAllEpics();
 
     //Метод удаления эпика по идентификатору
-    void deleteEpic(Integer id);
-
-
+    void deleteEpicById(Integer id);
 }
