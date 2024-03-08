@@ -7,14 +7,15 @@ import main.manager.Managers;
 import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 import java.util.HashMap;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+public class InMemoryTaskManagerTest {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
@@ -22,7 +23,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка, что два разных экземпляра Task не равны между собой.
     @Test
-    void notEqualTasks() {
+    public void notEqualTasks() {
         //Проверяем, что разные задачи не равны по всем полям.
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskNam_2", "TaskDescription_2", 2, Status.DONE));
@@ -35,7 +36,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка равенства двух задач по Id.
     @Test
-    void equalTasksById() {
+    public void equalTasksById() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskNam_2", "TaskDescription_2", 2, Status.DONE));
         Task task3 = new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW);
@@ -44,7 +45,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка равенства двух подзадач (наследников класса Task) по Id.
     @Test
-    void equalSubTasksById() {
+    public void equalSubTasksById() {
         inMemoryTaskManager.createEpic(new Epic("1_Epic", "1_Epic", 5, Status.DONE));
         inMemoryTaskManager.createSubTask(new SubTask("1_SubTaskName", "1_SubTaskDescription", 3, Status.NEW, 5));
         inMemoryTaskManager.createSubTask(new SubTask("2_SubTaskName", "2_SubTaskDescription", 4, Status.NEW, 5));
@@ -54,7 +55,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка равенства/неравенства двух эпиков (наследников класса Task) по Id.
     @Test
-    void equalEpicById() {
+    public void equalEpicById() {
         inMemoryTaskManager.createEpic(new Epic("1_Epic", "1_Epic", 5, Status.DONE));
         inMemoryTaskManager.createEpic(new Epic("2_Epic", "2_Epic", 9, Status.DONE));
         Epic epic3 = (new Epic("2_Epic", "2_Epic", 9, Status.DONE));
@@ -63,7 +64,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка невозможности создания задачи без существующего epicId.
     @Test
-    void notCreatedSubTasksByIncorrectEpicId() {
+    public void notCreatedSubTasksByIncorrectEpicId() {
         inMemoryTaskManager.createSubTask(new SubTask("1_SubTaskName", "1_SubTaskDescription", 3, Status.NEW, 5));
         inMemoryTaskManager.createSubTask(new SubTask("2_SubTaskName", "2_SubTaskDescription", 4, Status.NEW, 6));
         assertEquals(0, inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size(), "SubTask с несуществующими epicId просто не добавляются");
@@ -71,7 +72,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка создания подзадач (наследников класса Task) по существующим epicId.
     @Test
-    void createSubTasksOnlyWithCorrectEpicId() {
+    public void createSubTasksOnlyWithCorrectEpicId() {
         inMemoryTaskManager.createEpic(new Epic("2_Epic", "2_Epic", 9, Status.DONE));
         inMemoryTaskManager.createSubTask(new SubTask("1_SubTaskName", "1_SubTaskDescription", 3, Status.NEW, 9));
         inMemoryTaskManager.createSubTask(new SubTask("2_SubTaskName", "2_SubTaskDescription", 4, Status.NEW, 9));
@@ -81,7 +82,7 @@ class InMemoryTaskManagerTest {
 
     //Проверка возврата проинициализированных экземпляров менеджеров на примере нескольких экземпляров
     @Test
-    void returnInMemoryHistoryManagerAndInMemoryHistoryManager() {
+    public void returnInMemoryHistoryManagerAndInMemoryHistoryManager() {
         inMemoryTaskManager.createSubTask(new SubTask("1_SubTaskName", "1_SubTaskDescription", 3, Status.NEW, 5));
         InMemoryTaskManager inMemoryTaskManager1 = (InMemoryTaskManager) Managers.getDefault();
         InMemoryTaskManager inMemoryTaskManager2 = (InMemoryTaskManager) Managers.getDefault();
@@ -97,7 +98,7 @@ class InMemoryTaskManagerTest {
 
     // Проверяем добавление задачи в историю. Задача с одинаковым Id в истории не дублируется и сохраняется крайняя версия просмотра задачи.
     @Test
-    void addTasksToHistoryNotRepeat() {
+    public void addTasksToHistoryNotRepeat() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         assertEquals(0, inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size(), "Проверка истории просмотров задач на нулевой размер");
         inMemoryTaskManager.getTaskById(1);
@@ -111,7 +112,7 @@ class InMemoryTaskManagerTest {
 
     // Проверяем добавление задачи в историю. Задача с одинаковым Id в истории не дублируется и сохраняется крайняя версия просмотра.
     @Test
-    void addTasksToHistory() {
+    public void addTasksToHistory() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         inMemoryTaskManager.getTaskById(1);
         assertNotNull(inMemoryTaskManager.getInMemoryHistoryManager().getHistory(), "История не пустая");
@@ -122,7 +123,7 @@ class InMemoryTaskManagerTest {
 
     //Создание задачи с заданным Id и сгенерированным ID и отсутствие конфликта
     @Test
-    void createTaskByIdAndCreateTaskWithGeneratedID() {
+    public void createTaskByIdAndCreateTaskWithGeneratedID() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskName_2", "TaskDescription_2", Status.DONE));
         inMemoryTaskManager.createTask(new Task("TaskName_3", "TaskDescription_3", Status.DONE));
@@ -131,7 +132,7 @@ class InMemoryTaskManagerTest {
 
     // Проверка неизменности задачи при добавлении в Task
     @Test
-    void equalsTaskInTaskWhenCreated() {
+    public void equalsTaskInTaskWhenCreated() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         Task task2 = (new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         assertEquals(task2, inMemoryTaskManager.getTaskById(1), "Равенство задач при добавлении в Task по всем полям");
@@ -143,7 +144,7 @@ class InMemoryTaskManagerTest {
 
     //В истории сохраняется только последний просмотр задачи
     @Test
-    void differentVersionTaskInHistory() {
+    public void differentVersionTaskInHistory() {
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskName_2", "TaskDescription_2", 2, Status.NEW));
         inMemoryTaskManager.getTaskById(1);
