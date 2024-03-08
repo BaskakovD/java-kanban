@@ -26,11 +26,11 @@ public class InMemoryTaskManagerTest {
         //Проверяем, что разные задачи не равны по всем полям.
         inMemoryTaskManager.createTask(new Task("TaskName_1", "TaskDescription_1", 1, Status.NEW));
         inMemoryTaskManager.createTask(new Task("TaskNam_2", "TaskDescription_2", 2, Status.DONE));
-        assertNotEquals(inMemoryTaskManager.getTaskById(1).getName(), inMemoryTaskManager.getTaskById(2).getName(), "Проверка неравенства имен разных задач");
-        assertNotEquals(inMemoryTaskManager.getTaskById(1).getDescription(), inMemoryTaskManager.getTaskById(2).getDescription(), "Проверка неравенства описания разных задач");
-        assertNotEquals(inMemoryTaskManager.getTaskById(1).getId(), inMemoryTaskManager.getTaskById(2).getId(), "Проверка неравенства ID разных задач");
-        assertNotEquals(inMemoryTaskManager.getTaskById(1).getStatus(), inMemoryTaskManager.getTaskById(2).getStatus(), "Проверка неравенства статусов разных задач");
-        assertNotEquals(inMemoryTaskManager.getTaskById(1), inMemoryTaskManager.getTaskById(2), "Проверка неравенства задача с помощью метода Equals");
+        assertNotEquals(inMemoryTaskManager.getTaskById(1).getName(), inMemoryTaskManager.getTaskById(2).getName());
+        assertNotEquals(inMemoryTaskManager.getTaskById(1).getDescription(), inMemoryTaskManager.getTaskById(2).getDescription());
+        assertNotEquals(inMemoryTaskManager.getTaskById(1).getId(), inMemoryTaskManager.getTaskById(2).getId());
+        assertNotEquals(inMemoryTaskManager.getTaskById(1).getStatus(), inMemoryTaskManager.getTaskById(2).getStatus());
+        assertNotEquals(inMemoryTaskManager.getTaskById(1), inMemoryTaskManager.getTaskById(2));
     }
 
     //Проверка равенства двух задач по Id.
