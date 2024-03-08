@@ -5,8 +5,6 @@ import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
 
