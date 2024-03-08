@@ -7,6 +7,7 @@ import main.manager.Managers;
 import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class InMemoryTaskManagerTest {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
+
+
     InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
 
     //Проверка, что два разных экземпляра Task не равны между собой.
