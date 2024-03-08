@@ -18,12 +18,10 @@ public class Main {
         SubTask subTask1 = inMemoryTaskManager.createSubTask(new SubTask("Фундамент", "Заливка фундамента весной 2024", Status.IN_PROGRESS, epic.getId()));
         SubTask subTask2 = inMemoryTaskManager.createSubTask(new SubTask("Коробка дома", "Закупка кирпича и строительство коробки дома летом 2023", Status.NEW, epic.getId()));
         SubTask subTask3 = inMemoryTaskManager.createSubTask(new SubTask("Разводка", "Создание внутренней проводки весной 2025", Status.NEW, epic.getId()));
-
         //String Format
         // Запрос вызова для задачи №1 и проверка размера истории
         String resultGetTaskId1 = String.format("Вызываем метод getId для задачи : %s", inMemoryTaskManager.getTaskById(task1.getId()));
         String history1Size = String.format("Размер истории равен: %s", inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size());
-
         //Запрос вызова для задачи №2 и проверка размера истории
         String resultGetTaskId2 = String.format("Вызываем метод getId для задачи : %s", inMemoryTaskManager.getTaskById(task2.getId()));
         String history2Size = String.format("Размер истории равен: %s", inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size());
