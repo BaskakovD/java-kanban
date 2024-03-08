@@ -43,7 +43,6 @@ public class Main {
         inMemoryTaskManager.deleteEpicById(epic.getId());
         String printHistoryDeleteEpic = String.format("История задач: %s", inMemoryTaskManager.getInMemoryHistoryManager().getHistory());
         String historySizeDeleteEpic = String.format("Размер истории стал равным: %s", inMemoryTaskManager.getInMemoryHistoryManager().getHistory().size());
-
         System.out.println(resultGetTaskId1);
         System.out.println(history1Size);
         System.out.println(printHistory);
