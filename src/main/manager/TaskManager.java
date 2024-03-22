@@ -43,7 +43,7 @@ public interface TaskManager {
          */
 
     //Метод получение списка всех подзадач
-    List<Object> getListAllSubTasks();
+    List<SubTask> getListAllSubTasks();
 
     //Метод возвращает подзадачу по идентификатору
     SubTask getSubTaskById(Integer id);

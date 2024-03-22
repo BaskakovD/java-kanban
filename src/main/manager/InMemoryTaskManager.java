@@ -11,8 +11,17 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
+    private HistoryManager historyManager = Managers.getDefaultHistory();
+//    private FileBackedTaskManager fileBackedTaskManager = Managers.getDefaultFileBacked();
     final Random random = new Random();
+
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
+
+    public InMemoryTaskManager() {
+
+    }
 
     @Override
     public HashMap<Integer, Task> getTasks() {
@@ -42,7 +51,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getListAllTasks() {
         if (tasks.size() == 0) {
-            System.out.println("Task list is empty");
             return Collections.emptyList();
         }
         return new ArrayList<>(tasks.values());
@@ -61,8 +69,9 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(Integer id) {
         Task task = tasks.get(id);
         if (task != null) {
-            inMemoryHistoryManager.add(task);
+            historyManager.add(task);
         }
+
         return task;
     }
 
@@ -85,7 +94,7 @@ public class InMemoryTaskManager implements TaskManager {
     // Метод удаления задачи по идентификатору
     @Override
     public void deleteTaskById(Integer id) {
-        inMemoryHistoryManager.deleteTaskInHistory(id);
+        historyManager.deleteTaskInHistory(id);
         tasks.remove(id);
     }
 
@@ -94,7 +103,7 @@ public class InMemoryTaskManager implements TaskManager {
          */
     //Метод получение списка всех подзадач
     @Override
-    public List<Object> getListAllSubTasks() {
+    public List<SubTask> getListAllSubTasks() {
         if (subTasks.size() == 0) {
             return Collections.emptyList();
         }
@@ -112,7 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
     public SubTask getSubTaskById(Integer id) {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
-            inMemoryHistoryManager.add(subTask);
+            historyManager.add(subTask);
         }
         return subTask;
     }
@@ -150,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epicUpdate = getEpicById(epicId);
             epicUpdate.removeSubTask(deleteSubTask);
         }
-        inMemoryHistoryManager.deleteTaskInHistory(id);
+        historyManager.deleteTaskInHistory(id);
     }
 
     /*
@@ -160,11 +169,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Epic> getListAllEpics() {
         if (epics.size() == 0) {
-            System.out.println("Epic list is empty");
             return Collections.emptyList();
         }
         return new ArrayList<>(epics.values());
-
     }
 
     //Метод удаления всех эпиков
@@ -178,7 +185,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicById(Integer id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            inMemoryHistoryManager.add(epic);
+            historyManager.add(epic);
         }
         return epic;
     }
@@ -221,16 +228,16 @@ public class InMemoryTaskManager implements TaskManager {
             if (subTaskEntry.getValue().getEpicId() == id) {
                 Integer tempId = subTaskEntry.getValue().getId();
                 subTasksTemp.remove(tempId);
-                inMemoryHistoryManager.deleteTaskInHistory(tempId);
+                historyManager.deleteTaskInHistory(tempId);
             }
         }
-        inMemoryHistoryManager.deleteTaskInHistory(id);
+        historyManager.deleteTaskInHistory(id);
         subTasks.clear();
         subTasks.putAll(subTasksTemp);
     }
 
-    public HistoryManager getInMemoryHistoryManager() {
-        return inMemoryHistoryManager;
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 }
 
