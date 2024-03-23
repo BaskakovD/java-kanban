@@ -2,9 +2,7 @@ package test;
 
 import main.enums.Status;
 import main.manager.FileBackedTaskManager;
-import main.manager.InMemoryTaskManager;
 import main.manager.Managers;
-import main.manager.TaskManager;
 import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +25,7 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     Path path = Path.of("temp");
 
     @BeforeEach
-    public void BeforeEach() {
+    public void Runner() {
         //Создание временного файла
         {
             try {
@@ -40,9 +37,10 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
         inMemoryTaskManager = new FileBackedTaskManager(file, Managers.getDefaultHistory());
     }
 
+
     // Тест сохранения задачи, подзадачи и эпики в файл. Проверяем, что subTask не создается на основе несуществующего эпика
     @Test
-    public void SaveTaskEpicSubTask() {
+    public void saveTaskEpicSubTask() {
         Task task1 = new Task("Ракета", "Create the rocket in 2026", inMemoryTaskManager.generatedID(), Status.NEW);
         inMemoryTaskManager.createTask(task1);
         inMemoryTaskManager.getTaskById(1);
