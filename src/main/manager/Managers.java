@@ -1,8 +1,6 @@
 package main.manager;
 
 import java.io.File;
-import java.nio.file.Path;
-
 
 public class Managers {
 
@@ -11,6 +9,7 @@ public class Managers {
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
     }
+
     // Метод возвращения по умолчанию InMemoryHistoryManager
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
