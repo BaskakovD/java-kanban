@@ -68,7 +68,7 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
         Epic epic1 = new Epic("Дом", "Строительство многоквартирного дома в 2025-2030 гг", inMemoryTaskManager.generatedID(), Status.NEW);
         inMemoryTaskManager.createEpic(epic1);
         inMemoryTaskManager.getEpicById(3);
-        SubTask subTask1 = new SubTask("Фундамент", "Строительство фундамента многоквартирного дома",inMemoryTaskManager.generatedID(), Status.NEW, epic1.getId());
+        SubTask subTask1 = new SubTask("Фундамент", "Строительство фундамента многоквартирного дома", inMemoryTaskManager.generatedID(), Status.NEW, epic1.getId());
         inMemoryTaskManager.createSubTask(subTask1);
         inMemoryTaskManager.getSubTaskById(3);
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(getFile());

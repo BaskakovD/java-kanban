@@ -12,8 +12,6 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private HistoryManager historyManager = Managers.getDefaultHistory();
-//    private FileBackedTaskManager fileBackedTaskManager = Managers.getDefaultFileBacked();
-    final Random random = new Random();
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
@@ -239,6 +237,23 @@ public class InMemoryTaskManager implements TaskManager {
     public HistoryManager getHistoryManager() {
         return historyManager;
     }
+
+
+    //метод добавления задачи из файла бэкапа в историю просмотров
+    public void addTaskToHistory(Integer id) {
+        if (getTaskById(id) != null) {
+            historyManager.add(getTaskById(id));
+        } else if (getSubTaskById(id) != null) {
+            historyManager.add(getSubTaskById(id));
+        } else if (getEpicById(id) != null) {
+            historyManager.add(getEpicById(id));
+        }
+
+
+    }
+
 }
+
+
 
 

@@ -22,7 +22,6 @@ public class InMemoryTaskManagerTest {
 
 
     InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
-//    FileBackedTaskManager fileBackedTaskManager = Managers.getDefaultFileBacked();
 
     //Проверка, что два разных экземпляра Task не равны между собой.
     @Test

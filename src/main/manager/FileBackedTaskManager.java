@@ -30,15 +30,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    public FileBackedTaskManager(HistoryManager historyManager) {
-        super(historyManager);
+    public FileBackedTaskManager() {
     }
-    public FileBackedTaskManager () {
 
-    }
 
     //Метод сохранения всех задач и их статуса в файл
-    String temp;
     public void save() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             bufferedWriter.write("id,type,name,status,description,epic \n");
@@ -46,14 +42,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (Task task : getListAllTasks()) {
                 bufferedWriter.write(toString(task) + "\n");
             }
+            //записываем эпики
+            for (Epic epic : getListAllEpics()) {
+                bufferedWriter.write(toString(epic) + "\n");
+            }
             // записываем подзадачи
             for (SubTask subTask : getListAllSubTasks()) {
                 bufferedWriter.write(toString(subTask) + "\n");
             }
-            // записываем эпики
-            for (Epic epic : getListAllEpics()) {
-                bufferedWriter.write(toString(epic) + "\n");
-            }
+            bufferedWriter.write("\n");
             bufferedWriter.write(historyToString(getHistoryManager()));
         } catch (IOException e) {
             throw new ManagerSaveException("Запись не удалась. Попробуйте снова!" + e);
@@ -61,40 +58,38 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     //Метод загрузки данных состояния FileBackedTaskManager из файла
-    public static FileBackedTaskManager loadFromFile (File file) {
+    public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager taskManager = new FileBackedTaskManager(file);
 
-        try (BufferedReader  bufferedReader = new BufferedReader( new FileReader(file,StandardCharsets.UTF_8))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             bufferedReader.readLine();
-
             while (bufferedReader.ready()) {
                 String tempLine = bufferedReader.readLine();
                 if (tempLine.isEmpty()) {
                     break;
                 }
-
                 Task tempTask = taskFromString(tempLine);
-                try {
-                    if (tempTask instanceof Task) {
-                        taskManager.newTask(tempTask);
-                    }
-                    if (tempTask instanceof SubTask) {
-                        taskManager.newSubTask((SubTask) tempTask);
-                    }
-                    if (tempTask instanceof Epic) {
-                        taskManager.newEpic((Epic) tempTask);
-                    }
-                }catch (Exception e) {
-                    throw new ManagerSaveException("Не удалось загрузить задачу! " + e);
+                if (tempTask instanceof Epic) {
+                    taskManager.newEpic((Epic) tempTask);
+                } else if (tempTask instanceof SubTask) {
+                    taskManager.newSubTask((SubTask) tempTask);
+                } else if (tempTask instanceof Task) {
+                    taskManager.newTask(tempTask);
+                } else {
+                    System.out.println("Это не задача");
                 }
-
             }
-        }catch (IOException e) {
-            throw  new ManagerSaveException("Загрузка не удалась. Повторите операцию! " + e);
+
+
+            String historyString = bufferedReader.readLine();
+
+            for (Integer id : historyFromString(historyString)) {
+                taskManager.addTaskToHistory(id);
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException("Загрузка не удалась. Повторите операцию! " + e);
         }
-
         return taskManager;
-
     }
 
 
@@ -118,6 +113,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return "";
     }
 
+
     // Метод преобразования задачи в строку
     public String toString(Task task) {
         String[] arrayStringTask = {Integer.toString(task.getId()),
@@ -133,7 +129,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     //Метод записи истории в строку
     static String historyToString(HistoryManager historyManager) {
-        List <Task> historyManagerList = historyManager.getHistory();
+        List<Task> historyManagerList = historyManager.getHistory();
         StringBuilder stringBuilder = new StringBuilder();
         if (historyManagerList.isEmpty()) {
             return "";
@@ -149,33 +145,35 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String temp = stringBuilder.toString();
         return stringBuilder.toString();
     }
+
     // Метод получения истории из строки
-    static  List <Integer> historyFromString (String value) {
-        List <Integer> historyListFromString = new ArrayList<>();
+    static List<Integer> historyFromString(String value) {
+        List<Integer> historyListFromString = new ArrayList<>();
         if (value != null) {
-            String [] values = value.split(",");
-            for (String  val : values ) {
+            String[] values = value.split(",");
+            for (String val : values) {
                 historyListFromString.add(Integer.parseInt(val));
             }
         }
-        return  historyListFromString;
+        return historyListFromString;
     }
+
     // Метод получения задачи из строки в зависимости от типа
-    static  Task taskFromString(String value) {
-        String [] valuesOfTask = value.split(",");
-        String id = valuesOfTask [0];
-        String type = valuesOfTask [1];
-        String name = valuesOfTask [2];
-        String status = valuesOfTask [3];
-        String description = valuesOfTask [4];
-        Integer idOfEpic = type.equals(TaskType.SUBTASK.toString()) ? Integer.valueOf(valuesOfTask [5]) : null;
-        //создание задачи
+    static Task taskFromString(String templine) {
+        String[] valuesOfTask = templine.split(",");
+        String id = valuesOfTask[0];
+        String type = valuesOfTask[1];
+        String name = valuesOfTask[2];
+        String status = valuesOfTask[3];
+        String description = valuesOfTask[4];
+        //создание задачи, сабтаски или эпика
         switch (type) {
             case "TASK":
                 Task task = new Task(name, description, Status.valueOf(status));
                 task.setId(Integer.parseInt(id));
                 return task;
             case "SUBTASK":
+                Integer idOfEpic = type.equals(TaskType.SUBTASK.toString()) ? Integer.valueOf(valuesOfTask[5]) : null;
                 SubTask subTask = new SubTask(name, description, Status.valueOf(status), idOfEpic);
                 subTask.setId(Integer.parseInt(id));
                 return subTask;
@@ -336,25 +334,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     //Метод создания задачи из файла
-    public Task newTask (Task temptask) {
+    public Task newTask(Task temptask) {
         return super.createTask(temptask);
     }
 
     //Метод создания подзадачи из файла
-    public SubTask newSubTask (SubTask temptask) {
+    public SubTask newSubTask(SubTask temptask) {
         return super.createSubTask(temptask);
     }
 
     //Метод создания эпика из файла
     public Epic newEpic(Epic temptask) {
-        return  super.createEpic(temptask);
+        return super.createEpic(temptask);
     }
 
     static File createTempFile() throws IOException {
         File tempFile = File.createTempFile("MyTempFile", "");
         return tempFile;
     }
-
 
 
 }
