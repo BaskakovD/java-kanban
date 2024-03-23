@@ -25,15 +25,14 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     Path path = Path.of("temp");
 
     @BeforeEach
-    public void Runner() {
+    public void runner() {
         //Создание временного файла
-        {
             try {
                 file = File.createTempFile("test", ".csv", path.toFile());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
+
         inMemoryTaskManager = new FileBackedTaskManager(file, Managers.getDefaultHistory());
     }
 

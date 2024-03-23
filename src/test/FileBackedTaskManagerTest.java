@@ -2,9 +2,7 @@ package test;
 
 import main.enums.Status;
 import main.manager.FileBackedTaskManager;
-import main.manager.InMemoryTaskManager;
 import main.manager.Managers;
-import main.manager.TaskManager;
 import main.tasks.Epic;
 import main.tasks.SubTask;
 import main.tasks.Task;
@@ -28,15 +26,13 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     Path path = Path.of("temp");
 
     @BeforeEach
-    public void BeforeEach() {
+    public void runner() {
         //Создание временного файла
-        {
             try {
                 file = File.createTempFile("test", ".csv", path.toFile());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
         inMemoryTaskManager = new FileBackedTaskManager(file, Managers.getDefaultHistory());
     }
 
