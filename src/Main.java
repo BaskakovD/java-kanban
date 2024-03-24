@@ -45,6 +45,7 @@ public class Main {
         String printHistoryDeleteEpic = String.format("История задач: %s", inMemoryTaskManager.getHistoryManager().getHistory());
         String historySizeDeleteEpic = String.format("Размер истории стал равным: %s", inMemoryTaskManager.getHistoryManager().getHistory().size());
 
+
         System.out.println(resultGetTaskId1);
         System.out.println(history1Size);
         System.out.println(printHistory);
