@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private static File file;
+    public static File file;
 
     static File getFile() {
         return file;
