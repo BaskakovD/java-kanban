@@ -1,0 +1,5 @@
+id,type,name,status,description,epic 
+1,TASK,Ракета,NEW,Create the rocket in 2026,
+2,TASK,Самолет,IN_PROGRESS,Создание самолета в  2025 году,
+
+1,2
